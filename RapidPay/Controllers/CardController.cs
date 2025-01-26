@@ -7,6 +7,7 @@ using RapidPay.Data;
 using RapidPay.Model.Api.Request;
 using RapidPay.Model.Api.Response;
 using RapidPay.Model.Data;
+using RapidPay.Services.Abstractions;
 
 namespace Payments.Controllers;
 
@@ -17,13 +18,15 @@ public class CardController : ControllerBase
     private readonly ApplicationDbContext _applicationDbContext;
     private readonly IMapper _mapper;
     private readonly IValidator<CreateCardRequest> _validator;
+    private readonly IFeeService _feeService;
 
     public CardController(ApplicationDbContext applicationDbContext,
-        IMapper mapper, IValidator<CreateCardRequest> validator)
+        IMapper mapper, IValidator<CreateCardRequest> validator, IFeeService feeService)
     {
         _applicationDbContext = applicationDbContext;
         _mapper = mapper;
         _validator = validator;
+        _feeService = feeService;
     }
 
     [HttpPost("Create")]
@@ -66,10 +69,13 @@ public class CardController : ControllerBase
         if (card == null)
             return BadRequest("Invalid card.");
 
-        if (payWithCardRequest.Amount > card.Balance)
+        var fee = _feeService.Calculate();
+        var amountPlusFee = payWithCardRequest.Amount + fee;
+
+        if (amountPlusFee > card.Balance)
             return BadRequest($"Insufficient funds.");
 
-        card.Balance -= payWithCardRequest.Amount;
+        card.Balance -= amountPlusFee;
 
         var updatedCard = _applicationDbContext.Update(card);
         await _applicationDbContext.SaveChangesAsync();
