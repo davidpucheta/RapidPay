@@ -37,7 +37,7 @@ public class CardController : ControllerBase
         }
 
         var card = _mapper.Map<Card>(createCardRequest);
-        var savedCard = await _applicationDbContext.Card.AddAsync(card);
+        var savedCard = await _applicationDbContext.Cards.AddAsync(card);
         await _applicationDbContext.SaveChangesAsync();
 
         return Ok(_mapper.Map<CreateCardResponse>(savedCard.Entity));
@@ -49,7 +49,7 @@ public class CardController : ControllerBase
         if (string.IsNullOrWhiteSpace(cardNumber))
             return BadRequest(cardNumber);
 
-        var card = await _applicationDbContext.Card.FirstOrDefaultAsync(c => c.CardNumber == cardNumber);
+        var card = await _applicationDbContext.Cards.FirstOrDefaultAsync(c => c.CardNumber == cardNumber);
 
         return Ok(card?.Balance ?? 0);
     }
@@ -60,7 +60,7 @@ public class CardController : ControllerBase
         if (string.IsNullOrWhiteSpace(payWithCardRequest.CardNumber))
             return BadRequest($"Unknown card number: {payWithCardRequest.CardNumber}");
 
-        var card = await _applicationDbContext.Card
+        var card = await _applicationDbContext.Cards
             .FirstOrDefaultAsync(c => c.CardNumber == payWithCardRequest.CardNumber);
 
         if (card == null)
