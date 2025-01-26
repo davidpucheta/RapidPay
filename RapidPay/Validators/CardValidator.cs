@@ -12,8 +12,8 @@ namespace RapidPay.Validators
             RuleFor(c => c.CardNumber)
                 .NotEmpty()
                 .Length(15)
-                            .Must(IsValidCardNumber).WithMessage("'{PropertyName}' should be all numbers")
-            .Must(n => dbContext.Card.FirstOrDefault(c => c.CardNumber == n) == null)
+                .Must(IsValidCardNumber).WithMessage("'{PropertyName}' should be all numbers")
+                .Must(n => dbContext.Card.FirstOrDefault(c => c.CardNumber == n) == null)
                 .WithMessage("'{PropertyName}' already registered.");
         }
 
