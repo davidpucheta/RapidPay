@@ -362,3 +362,6 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 /RapidPay/Data/app.db
+/Data/app.db
+/Data/app.db-shm
+/Data/app.db-wal
