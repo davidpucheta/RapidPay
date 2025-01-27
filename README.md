@@ -3,7 +3,7 @@
 ### Clone or download repo and open project in Visual Studio or VSCode ###
 - Build Solution
 - Setup the database. I decided to use EF with SQLite to make the app self contained and portable, you'll need to run migrations.
-    - In Visual Studio, you can use the Package Manager Console to apply migrations to the database:
+    - In Visual Studio, you can use the Package Manager Console to apply migrations to the database from the ***Data project***:
                 <br>
                 <code>PM&gt; Update-Database</code>                
     - Alternatively, you can apply migrations from a command prompt at your project directory:
