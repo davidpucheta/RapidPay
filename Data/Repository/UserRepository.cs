@@ -15,7 +15,7 @@ public class UserRepository : BaseRepository, IRepository<User>
         return await _dbContext.Set<User>().ToListAsync();
     }
 
-    public async Task<User> GetByIdAsync(int id)
+    public async Task<User?> GetByIdAsync(int id)
     {
         return await _dbContext.Set<User>().FindAsync(id);
     }

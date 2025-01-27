@@ -15,7 +15,7 @@ namespace Data.Repository
             return await _dbContext.Set<Card>().ToListAsync();
         }
 
-        public async Task<Card> GetByIdAsync(int id)
+        public async Task<Card?> GetByIdAsync(int id)
         {
             return await _dbContext.Set<Card>().FindAsync(id);
         }
