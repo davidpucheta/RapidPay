@@ -1,7 +1,8 @@
-﻿namespace RapidPay.Model.Api.Request
+﻿namespace Models.Model.Data
 {
-    public class CreateCardRequest
+    public class Card
     {
+        public int Id { get; set; }
         public required string CardNumber { get; set; }
         public decimal Balance { get; set; }
     }

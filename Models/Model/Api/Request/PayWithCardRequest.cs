@@ -1,4 +1,4 @@
-﻿namespace RapidPay.Model.Api.Request
+﻿namespace Models.Model.Api.Request
 {
     public class PayWithCardRequest
     {

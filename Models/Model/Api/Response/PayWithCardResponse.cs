@@ -1,6 +1,6 @@
-﻿namespace RapidPay.Model.Data
+﻿namespace Models.Model.Api.Response
 {
-    public class Card
+    public class PayWithCardResponse
     {
         public int Id { get; set; }
         public required string CardNumber { get; set; }

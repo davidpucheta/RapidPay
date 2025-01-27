@@ -1,9 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.12.35707.178 d17.12
+VisualStudioVersion = 17.12.35707.178
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RapidPay", "RapidPay\RapidPay.csproj", "{83775126-966E-4441-AEEE-6EC7ED69D570}"
+	ProjectSection(ProjectDependencies) = postProject
+		{62F987DA-BB81-412B-809B-C37A1B898C8E} = {62F987DA-BB81-412B-809B-C37A1B898C8E}
+		{E55BACC1-1AFB-4749-B53B-041E670F358F} = {E55BACC1-1AFB-4749-B53B-041E670F358F}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Data", "Data\Data.csproj", "{62F987DA-BB81-412B-809B-C37A1B898C8E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Models", "Models\Models.csproj", "{E55BACC1-1AFB-4749-B53B-041E670F358F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +23,14 @@ Global
 		{83775126-966E-4441-AEEE-6EC7ED69D570}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{83775126-966E-4441-AEEE-6EC7ED69D570}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{83775126-966E-4441-AEEE-6EC7ED69D570}.Release|Any CPU.Build.0 = Release|Any CPU
+		{62F987DA-BB81-412B-809B-C37A1B898C8E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{62F987DA-BB81-412B-809B-C37A1B898C8E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{62F987DA-BB81-412B-809B-C37A1B898C8E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{62F987DA-BB81-412B-809B-C37A1B898C8E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E55BACC1-1AFB-4749-B53B-041E670F358F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E55BACC1-1AFB-4749-B53B-041E670F358F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E55BACC1-1AFB-4749-B53B-041E670F358F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E55BACC1-1AFB-4749-B53B-041E670F358F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

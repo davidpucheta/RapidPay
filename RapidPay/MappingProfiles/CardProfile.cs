@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
-using RapidPay.Model.Api.Request;
-using RapidPay.Model.Api.Response;
-using RapidPay.Model.Data;
+using Models.Model.Api.Request;
+using Models.Model.Api.Response;
+using Models.Model.Data;
 
 namespace RapidPay.MappingProfiles
 {

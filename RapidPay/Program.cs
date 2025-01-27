@@ -1,8 +1,12 @@
+using Data.Data;
+using Data.Repository;
 using FluentValidation;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.EntityFrameworkCore;
-using RapidPay.Data;
+using Models.Model.Data;
 using RapidPay.Services.Abstractions;
 using RapidPay.Services.Implementations;
+using RapidPay.Validators;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,6 +26,12 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddSingleton<IFeeService, FeeService>();
+builder.Services.AddScoped<IRepository<Card>, CardRepository>();
+builder.Services.AddScoped<IRepository<User>, UserRepository>();
+
+builder.Services.AddAuthentication("BasicAuthentication")
+    .AddScheme<AuthenticationSchemeOptions, UserValidator>("BasicAuthentication", null);
+builder.Services.AddAuthorization();
 
 var app = builder.Build();
 
@@ -33,6 +43,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 

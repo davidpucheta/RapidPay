@@ -1,6 +1,6 @@
-﻿using FluentValidation;
-using RapidPay.Data;
-using RapidPay.Model.Api.Request;
+﻿using Data.Data;
+using FluentValidation;
+using Models.Model.Api.Request;
 
 namespace RapidPay.Validators
 {

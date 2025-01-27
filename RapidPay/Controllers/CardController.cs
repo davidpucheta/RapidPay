@@ -1,32 +1,36 @@
 ﻿using AutoMapper;
+using Data.Repository;
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using RapidPay.Data;
-using RapidPay.Model.Api.Request;
-using RapidPay.Model.Api.Response;
-using RapidPay.Model.Data;
+using Models.Model.Api.Request;
+using Models.Model.Api.Response;
+using Models.Model.Data;
 using RapidPay.Services.Abstractions;
 
 namespace Payments.Controllers;
 
 [ApiController]
 [Route("[controller]")]
+[Authorize]
 public class CardController : ControllerBase
 {
-    private readonly ApplicationDbContext _applicationDbContext;
     private readonly IMapper _mapper;
     private readonly IValidator<CreateCardRequest> _validator;
     private readonly IFeeService _feeService;
+    private readonly IRepository<Card> _cardRepository;
 
-    public CardController(ApplicationDbContext applicationDbContext,
-        IMapper mapper, IValidator<CreateCardRequest> validator, IFeeService feeService)
+    public CardController(
+        IMapper mapper,
+        IValidator<CreateCardRequest> validator,
+        IFeeService feeService,
+        IRepository<Card> cardRepository)
     {
-        _applicationDbContext = applicationDbContext;
         _mapper = mapper;
         _validator = validator;
         _feeService = feeService;
+        _cardRepository = cardRepository;
     }
 
     [HttpPost("Create")]
@@ -40,10 +44,9 @@ public class CardController : ControllerBase
         }
 
         var card = _mapper.Map<Card>(createCardRequest);
-        var savedCard = await _applicationDbContext.Cards.AddAsync(card);
-        await _applicationDbContext.SaveChangesAsync();
+        var savedCard = await _cardRepository.AddAsync(card);
 
-        return Ok(_mapper.Map<CreateCardResponse>(savedCard.Entity));
+        return Ok(_mapper.Map<CreateCardResponse>(savedCard));
     }
 
     [HttpGet("GetBalance")]
@@ -52,7 +55,8 @@ public class CardController : ControllerBase
         if (string.IsNullOrWhiteSpace(cardNumber))
             return BadRequest(cardNumber);
 
-        var card = await _applicationDbContext.Cards.FirstOrDefaultAsync(c => c.CardNumber == cardNumber);
+        var cards = await _cardRepository.GetAllAsync();
+        var card = cards.FirstOrDefault(c => c.CardNumber == cardNumber);
 
         return Ok(card?.Balance ?? 0);
     }
@@ -63,8 +67,8 @@ public class CardController : ControllerBase
         if (string.IsNullOrWhiteSpace(payWithCardRequest.CardNumber))
             return BadRequest($"Unknown card number: {payWithCardRequest.CardNumber}");
 
-        var card = await _applicationDbContext.Cards
-            .FirstOrDefaultAsync(c => c.CardNumber == payWithCardRequest.CardNumber);
+        var cards = await _cardRepository.GetAllAsync();
+        var card = cards.FirstOrDefault(c => c.CardNumber == payWithCardRequest.CardNumber);
 
         if (card == null)
             return BadRequest("Invalid card.");
@@ -77,9 +81,8 @@ public class CardController : ControllerBase
 
         card.Balance -= amountPlusFee;
 
-        var updatedCard = _applicationDbContext.Update(card);
-        await _applicationDbContext.SaveChangesAsync();
+        var updatedCard = await _cardRepository.UpdateAsync(card);
 
-        return Ok(updatedCard.Entity);
+        return Ok(updatedCard);
     }
 }

@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace RapidPay.Migrations
+namespace Data.Migrations
 {
     /// <inheritdoc />
     public partial class InitializeDb : Migration
@@ -23,6 +23,25 @@ namespace RapidPay.Migrations
                 {
                     table.PrimaryKey("PK_Card", x => x.Id);
                 });
+
+            migrationBuilder.CreateTable(
+                name: "Users",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    UserName = table.Column<string>(type: "TEXT", nullable: false),
+                    Password = table.Column<string>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Users", x => x.Id);
+                });
+
+            migrationBuilder.InsertData(
+                table: "Users",
+                columns: new[] { "Id", "Password", "UserName" },
+                values: new object[] { 101, "123456", "ApiUser" });
         }
 
         /// <inheritdoc />
@@ -30,6 +49,9 @@ namespace RapidPay.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Card");
+
+            migrationBuilder.DropTable(
+                name: "Users");
         }
     }
 }
