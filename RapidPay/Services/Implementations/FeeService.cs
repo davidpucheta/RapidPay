@@ -6,6 +6,7 @@ namespace RapidPay.Services.Implementations
     {
         private decimal _lastFee;
         private DateTime _lastTimeUpdated;
+
         public FeeService()
         {
             _lastFee = GetRandomDecimal();
@@ -24,6 +25,7 @@ namespace RapidPay.Services.Implementations
             _lastFee = GetRandomDecimal() * _lastFee;
             return _lastFee;
         }
+
         private static decimal GetRandomDecimal()
         {
             var random = new Random();

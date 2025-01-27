@@ -33,6 +33,11 @@ public class CardController : ControllerBase
         _cardRepository = cardRepository;
     }
 
+    /// <summary>
+    /// Create a new card
+    /// </summary>
+    /// <param name="createCardRequest"></param>
+    /// <returns></returns>
     [HttpPost("Create")]
     public async Task<IActionResult> Post(CreateCardRequest createCardRequest)
     {
@@ -49,6 +54,11 @@ public class CardController : ControllerBase
         return Ok(_mapper.Map<CreateCardResponse>(savedCard));
     }
 
+    /// <summary>
+    /// Get the balance of a card
+    /// </summary>
+    /// <param name="cardNumber"></param>
+    /// <returns></returns>
     [HttpGet("GetBalance")]
     public async Task<IActionResult> Get(string cardNumber)
     {
@@ -61,6 +71,11 @@ public class CardController : ControllerBase
         return Ok(card?.Balance ?? 0);
     }
 
+    /// <summary>
+    /// Pay with a card
+    /// </summary>
+    /// <param name="payWithCardRequest"></param>
+    /// <returns></returns>
     [HttpPost("Pay")]
     public async Task<IActionResult> PayWithCard(PayWithCardRequest payWithCardRequest)
     {
